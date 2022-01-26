@@ -79,7 +79,7 @@ export default function PaginaInicial() {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             width: '100%', height: '100vh',
             backgroundColor: appConfig.theme.colors.primary[500],
-            backgroundImage: 'url(/bg.jpg)',
+            backgroundImage: 'url(https://images.pexels.com/photos/669584/pexels-photo-669584.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260)',
             backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
           }}
         >
