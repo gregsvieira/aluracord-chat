@@ -1,7 +1,8 @@
-import { Box, Button, Text, TextField, Image } from '@skynexui/components';
+import { Box, Button, Text, TextField, Image, Icons } from '@skynexui/components';
 import React from 'react';
 import { useRouter } from 'next/router';
 import appConfig from '../config.json';
+
 
 function GlobalStyle() {
     return (
@@ -14,6 +15,8 @@ function GlobalStyle() {
         }
         body {
           font-family: 'Open Sans', sans-serif;
+          align-items: center;
+          justifycontent: center;
         }
         /* App fit Height */ 
         html, body, #__next {
@@ -66,7 +69,7 @@ function Titulo(props){
 
 export default function PaginaInicial() {
     // const username = 'omariosouto';
-    const [username, setUsername] = React.useState('');
+    const [username, setUsername] = React.useState('gregsvieira');
     const roteamento = useRouter();
   
     return (
@@ -74,8 +77,9 @@ export default function PaginaInicial() {
         <Box
           styleSheet={{
             display: 'flex', alignItems: 'center', justifyContent: 'center',
+            width: '100%', height: '100vh',
             backgroundColor: appConfig.theme.colors.primary[500],
-            backgroundImage: 'url(https://images.unsplash.com/photo-1620188489543-326860bd4b45?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80)',
+            backgroundImage: 'url(/bg.jpg)',
             backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
           }}
         >
@@ -108,7 +112,7 @@ export default function PaginaInicial() {
                 width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
               }}
             >
-              <Titulo tag="h2">Boas vindas de volta!</Titulo>
+              <Titulo tag="h2">Bem vindo, Time!</Titulo>
               <Text variant="body3" styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors.neutrals[300] }}>
                 {appConfig.name}
               </Text>
@@ -145,13 +149,14 @@ export default function PaginaInicial() {
                   },
                 }}
               />
+              {/* Botão entrar */}
               <Button
                 type='submit'
                 label='Entrar'
                 fullWidth
                 buttonColors={{
                   contrastColor: appConfig.theme.colors.neutrals["000"],
-                  mainColor: appConfig.theme.colors.primary[500],
+                  mainColor: appConfig.theme.colors.primary[300],
                   mainColorLight: appConfig.theme.colors.primary[400],
                   mainColorStrong: appConfig.theme.colors.primary[600],
                 }}
