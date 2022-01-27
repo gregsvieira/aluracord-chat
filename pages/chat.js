@@ -1,11 +1,28 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import React from 'react';
 import appConfig from '../config.json';
+import { createClient } from '@supabase/supabase-js';
+
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzI4MjUyOCwiZXhwIjoxOTU4ODU4NTI4fQ.tXBzATuHHITdJZsdsj5i_JfunPm-s2rVTLjVj0o_sjI';
+const SUPABASE_URL = 'https://tfjjuattkwosqivlodvw.supabase.co';
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
 
 export default function ChatPage() {
     //const [valorusado pra imprimir, hook]
     const [mensagem, setMensagem] = React.useState('');
     const [listaDeMensagens, setListaDeMensagens] = React.useState([]);
+
+    React.useEffect(()=> {
+    supabaseClient
+    .from('mensagens')
+            .select('*')
+            .order('id', {ascending: false})
+            .then(({ data }) =>{
+                console.log('Dados da consulta:', data);
+                setListaDeMensagens(data);
+            });
+    }, []);
     // Sua lógica vai aqui
     /* Usuário:
         - Digita no textarea
@@ -15,23 +32,33 @@ export default function ChatPage() {
 
         Dev: 
             - [X] Campo criado
-            - [ ] Vamos usar o onChange usa o useState (ter if caso seja enter a variavel)
-            - [ ] Lista de mensagens em useState
+            - [X] Vamos usar o onChange usa o useState (ter if caso seja enter a variavel)
+            - [X] Lista de mensagens em useState
     */
 
     // ./Sua lógica vai aqui
 
     function handleNovaMensagem(novaMensagem) {
         const mensagem = {
-            id: listaDeMensagens.length + 1,
             de: 'vanessametonini',
             texto: novaMensagem,
         };
-        // Chamada de um backend
-        setListaDeMensagens([
-            mensagem,
-            ...listaDeMensagens,
-        ])
+
+        supabaseClient
+            .from('mensagens')
+            .insert([
+            // Tem que ser um objeto com os MESMOS CAMPOS que você escreveu no supabase
+                mensagem
+            ])
+            .then(({ data }) => {
+                console.log('Criando mensagem', data);
+                    // Chamada de um backend
+                    setListaDeMensagens([
+                        data[0],
+                        ...listaDeMensagens,
+                    ]);
+            });
+
         setMensagem('');
     };
 
@@ -148,7 +175,7 @@ function MessageList(props) {
         <Box
             tag="ul"
             styleSheet={{
-                overflow: 'scroll',
+                overflow: 'auto',
                 display: 'flex',
                 flexDirection: 'column-reverse',
                 flex: 1,
@@ -183,7 +210,7 @@ function MessageList(props) {
                                     display: 'inline-block',
                                     marginRight: '8px',
                                 }}
-                                src={`https://github.com/vanessametonini.png`}
+                                src={`https://github.com/${mensagem.de}.png`}
                             />
                             <Text tag="strong">
                                 {mensagem.de}
