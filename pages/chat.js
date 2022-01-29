@@ -3,8 +3,24 @@ import React from 'react';
 import appConfig from '../config.json';
 import { createClient } from '@supabase/supabase-js';
 
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
+export const getServerSideProps = async () => {
+    const { SUPABASE_ANON_KEY, SUPABASE_URL } = process.env;
+  
+    return {
+      props: {
+        SUPABASE_ANON_KEY,
+        SUPABASE_URL,
+      },
+    };
+  };
 
 export default function ChatPage() {
     //const [valorusado pra imprimir, hook]
